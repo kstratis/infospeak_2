@@ -42,7 +42,7 @@ public class closest extends DefaultInternalAction{
 			//Compare assignments and pick the closest one
 			for(int i = 0; i < assignments.size();i++){
 				Structure assignment = (Structure) assignments.get(i);
-				String course = assignment.getTerm(0).toString();
+				//String course = assignment.getTerm(0).toString();
 				int startWeek = (int)((NumberTerm)assignment.getTerm(2)).solve();
 				int startDay = (int)((NumberTerm)assignment.getTerm(3)).solve();
 				int startTime = (int)((NumberTerm)assignment.getTerm(4)).solve();

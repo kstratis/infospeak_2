@@ -4,6 +4,7 @@
 
 public class Building {
 //hi
+	//this is another comment
 	String name;
 	String type;
 	int code = 0;
