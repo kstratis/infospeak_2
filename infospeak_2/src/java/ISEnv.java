@@ -298,6 +298,7 @@ public class ISEnv extends Environment {
 		}
 		// Generate building codes for graphical representation
 		int lastCode = 16;
+		
 		for(Building building : simBuildings.values()){
 			if(!buildingCodes.containsKey(building.getType())){
 				int code = lastCode * 2;
@@ -502,8 +503,9 @@ public class ISEnv extends Environment {
 		public void run(){
 			while(true){
 				try{
-						Thread.sleep(1);
-				} catch (InterruptedException e){
+					Thread.sleep(1);
+				} 
+				catch (InterruptedException e){
 				}
 				if(!paused){
 					time.increment();
