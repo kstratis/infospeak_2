@@ -54,6 +54,7 @@ public class ISEnv extends Environment {
 	
     static Logger logger = Logger.getLogger(ISEnv.class.getName());
 	
+    //This is the infospeak model and view
     private ISModel model;
     private ISView  view;
    
@@ -97,7 +98,8 @@ public class ISEnv extends Environment {
 			}
 			// Start time
 			new write().start();			
-		} catch (Exception e){
+		} 
+		catch (Exception e){
 		}
     }
   
