@@ -37,18 +37,18 @@ public class ISEnv extends Environment {
 	int agentNum;
 	
 	// Simulation entities
-	Map<String,Agent> simAgents = new HashMap<String,Agent>();
-	Map<String,Course> simCourses = new HashMap<String,Course>();
-	Map<String,Event> simEvents = new HashMap<String,Event>();
-	Map<String,Building> simBuildings = new HashMap<String,Building>();
-	Map<String,Integer> buildingCodes = new HashMap<String,Integer>();
-	Map<Integer,String> buildingCodesD = new HashMap<Integer,String>();
-	Map<Integer,String> agentNames = new HashMap<Integer,String>();
-	Map<String,String> agentPos = new HashMap<String, String>();
+	Map<String, Agent> simAgents = new HashMap<String, Agent>();
+	Map<String, Course> simCourses = new HashMap<String, Course>();
+	Map<String, Event> simEvents = new HashMap<String, Event>();
+	Map<String, Building> simBuildings = new HashMap<String, Building>();
+	Map<String, Integer> buildingCodes = new HashMap<String, Integer>();
+	Map<Integer, String> buildingCodesD = new HashMap<Integer, String>();
+	Map<Integer, String> agentNames = new HashMap<Integer, String>();
+	Map<String, String> agentPos = new HashMap<String, String>();
 	Map<String, ArrayList<String>> agentByPos = new HashMap<String, ArrayList<String>>();
 	ArrayList<String> closed = new ArrayList<String>();
-	Map<String,ArrayList<String>> agentGroups = new HashMap<String,ArrayList<String>>();
-	Map<String,ArrayList<String>> courseGroups = new HashMap<String,ArrayList<String>>();
+	Map<String, ArrayList<String>> agentGroups = new HashMap<String, ArrayList<String>>();
+	Map<String, ArrayList<String>> courseGroups = new HashMap<String, ArrayList<String>>();
 
 	AStarPathFinder finder;
 	
@@ -66,13 +66,17 @@ public class ISEnv extends Environment {
       		mas2j parser = new mas2j(new FileInputStream(args[0]));
 			MAS2JProject project = parser.mas();
 			int i = 0;
+			
 			for (AgentParameters ap : project.getAgents()) {
 				String agName = ap.name;
+				
 				for (int cAg = 0; cAg < ap.qty; cAg++) {
 					String numberedAg = agName;
+					
 					if (ap.qty > 1) {
 						numberedAg += (cAg + 1);
 					}
+					
 					//Store names for easy access to ids from names and vice-versa
 					Agent agent = new Agent(numberedAg,agName,cAg+1,i);
 					//agent.printInfo();
@@ -88,11 +92,14 @@ public class ISEnv extends Environment {
 			agentNum = simAgents.size();
 			//sleep =  Math.round(hour/40/agentNum);
 			//Initialise view and percepts
+			
 			model = new ISModel();
 			view  = new ISView(model);
 			model.setView(view);
+			
 			setInitialPercepts();
 			//updatePercepts();
+			
 			for(String a: simAgents.keySet()){
 				updatePosition(a);
 			}
@@ -235,7 +242,7 @@ public class ISEnv extends Environment {
 						}
 						// If the agent is in fact an agent group, add course(s) to all agents in that group
 						if(agentGroups.containsKey(agent)){
-							for(int i=0;i <agentGroups.get(agent).size();i++){
+							for(int i=0; i <agentGroups.get(agent).size(); i++){
 								String currentAgent = agentGroups.get(agent).get(i);
 								simAgents.get(currentAgent).addCourses(coursesList);
 							}	
@@ -245,15 +252,15 @@ public class ISEnv extends Environment {
 					// Set custom events for agents
 					} else if (input.startsWith("ce")){
 						input = input.substring(3);
-						String agent = input.substring(0,input.indexOf(':'));
-						input = input.substring(input.indexOf(':')+1);
+						String agent = input.substring(0, input.indexOf(':'));
+						input = input.substring(input.indexOf(':') + 1);
 						// If agent is actually an agent group, add events for all agents
 						if(agentGroups.containsKey(agent)){
-							for(int i=0;i <agentGroups.get(agent).size();i++){
+							for(int i=0; i<agentGroups.get(agent).size(); i++){
 								String currentAgent = agentGroups.get(agent).get(i);
 								try{
-									Event event = new Event(currentAgent +"," + input);
-									simEvents.put(event.info(),event);
+									Event event = new Event(currentAgent + "," + input);
+									simEvents.put(event.info(), event);
 								} catch (IllegalArgumentException e){
 									System.out.println(e);
 								}
@@ -261,7 +268,7 @@ public class ISEnv extends Environment {
 						} else {
 							try{
 								Event event = new Event(agent + ',' + input);
-								simEvents.put(event.info(),event);
+								simEvents.put(event.info(), event);
 								} catch (IllegalArgumentException e){
 									System.out.println(e);
 								}
@@ -269,8 +276,8 @@ public class ISEnv extends Environment {
 					// Set default custom event priorities
 					} else if (input.startsWith("ep")){	
 						input = input.substring(3);
-						String eventType = input.substring(0,input.indexOf(':'));
-						input = input.substring(input.indexOf(':')+1);
+						String eventType = input.substring(0, input.indexOf(':'));
+						input = input.substring(input.indexOf(':') + 1);
 						// Handle lecture special case
 						if(eventType.equals("lecture")){
 							for(Agent agent: simAgents.values()){
@@ -305,7 +312,7 @@ public class ISEnv extends Environment {
 			if(!buildingCodes.containsKey(building.getType())){
 				int code = lastCode * 2;
 				building.setCode(code);
-				buildingCodes.put(building.getType(),code);
+				buildingCodes.put(building.getType(), code);
 				buildingCodesD.put(code,building.getType());
 				lastCode = code;
 			} else {
@@ -389,7 +396,7 @@ public class ISEnv extends Environment {
 	// Update position percepts and agents by position
 	void updatePosition(String ag){
 		//Remove old percepts and replace with new
-		removePercept(Literal.parseLiteral("pos(" + ag +"," + simAgents.get(ag).getPos() + ")"));
+		removePercept(Literal.parseLiteral("pos(" + ag + "," + simAgents.get(ag).getPos() + ")"));
 		String x = Integer.toString(model.getAgPos(simAgents.get(ag).getId()).x);
 		String y = Integer.toString(model.getAgPos(simAgents.get(ag).getId()).y);
 		simAgents.get(ag).setPos(Integer.parseInt(x),Integer.parseInt(y));
@@ -408,7 +415,7 @@ public class ISEnv extends Environment {
 			agentByPos.put(position, agentHere);
 		}
 		agentPos.put(ag,position);
-		addPercept(Literal.parseLiteral("pos(" + ag +"," + simAgents.get(ag).getPos() + ")"));
+		addPercept(Literal.parseLiteral("pos(" + ag + "," + simAgents.get(ag).getPos() + ")"));
 	}
 	
 	//Set initial percepts
@@ -435,23 +442,23 @@ public class ISEnv extends Environment {
 		for(String agent: simAgents.keySet()){
 			if(!simAgents.get(agent).getCourses().isEmpty()){
 				courses = simAgents.get(agent).getCourses();
-				for(int i = 0; i < courses.size(); i++){
+				for(int i = 0; i<courses.size(); i++){
 					ArrayList<Lecture> lectures = simCourses.get(courses.get(i)).getLectures();
-					for(int j = 0; j < lectures.size(); j++){
+					for(int j = 0; j<lectures.size(); j++){
 						Lecture lecture = lectures.get(j);
 						String[] weeks = lecture.getWeeks().split(",");
-						for(int k = 0; k < weeks.length; k++){
+						for(int k = 0; k<weeks.length; k++){
 							Literal lectureP = Literal.parseLiteral("lecture(" + courses.get(i) + "," + weeks[k] + "," + lecture.getDay() + "," + lecture.getTime() + "," + lecture.getPlace() + "," + lecture.getPriority()+")");
 							//System.out.println(lectureP.toString());
-							addPercept(agent,lectureP);
+							addPercept(agent, lectureP);
 						}
 					}
 					ArrayList<Assignment> assignments = simCourses.get(courses.get(i)).getAssignments();
-					for(int j = 0; j < assignments.size(); j++){
+					for(int j = 0; j<assignments.size(); j++){
 						Assignment assignment = assignments.get(j);
-						Literal assignmentP = Literal.parseLiteral("assignment("+assignment.getCourse()+","+assignment.getNumber()+","+assignment.getStartWeek() + "," + assignment.getStartDay()+"," + assignment.getStartTime()+","+assignment.getEndWeek() + "," + assignment.getEndDay()+"," + assignment.getEndTime()+","+assignment.getHours()+")");
+						Literal assignmentP = Literal.parseLiteral("assignment("+ assignment.getCourse() + "," + assignment.getNumber() + "," + assignment.getStartWeek() + "," + assignment.getStartDay() + "," + assignment.getStartTime() + "," + assignment.getEndWeek() + "," + assignment.getEndDay()+ "," + assignment.getEndTime() + "," + assignment.getHours() + ")");
 					//System.out.println("assignment("+assignment.getName()+","+assignment.getStartDay()+"," + assignment.getStartTime()+","+assignment.getEndDay()+"," + assignment.getEndTime()+","+assignment.getHours()+")");
-						addPercept(agent,assignmentP);
+						addPercept(agent, assignmentP);
 					}
 				}
 			} else{
@@ -474,9 +481,9 @@ public class ISEnv extends Environment {
 				}
 				ArrayList<ArrayList<Integer>> split = Tools.events(event);
 				for(ArrayList<Integer> s: split){
-					Literal eventP = Literal.parseLiteral("event("+event.getName()+","+s.get(0)+","+s.get(1)+","+s.get(2)+","+place+","+event.getPriority()+")");
+					Literal eventP = Literal.parseLiteral("event(" + event.getName() + "," + s.get(0) + "," + s.get(1) + "," + s.get(2) + "," + place + "," + event.getPriority() + ")");
 					//System.out.println(eventP);
-					addPercept(agent,eventP);
+					addPercept(agent, eventP);
 				}
 			}
 		}
@@ -494,9 +501,9 @@ public class ISEnv extends Environment {
 		
 		//Add home locations for agents
 		for(String agent: simAgents.keySet()){
-			Literal homePercept = Literal.parseLiteral("home("+simAgents.get(agent).getHome()+")");
+			Literal homePercept = Literal.parseLiteral("home(" + simAgents.get(agent).getHome() + ")");
 			//System.out.println(agent + " home(o"+simAgents.get(agent).getHome()+")");
-			addPercept(agent,homePercept);
+			addPercept(agent, homePercept);
 		} 	
 	}
 	
@@ -581,23 +588,23 @@ public class ISEnv extends Environment {
 			Map<String,Path> paths = new HashMap<String,Path>();
 			// Generate paths between buildings
 			for(Building building1: simBuildings.values()){
-				finder.removeBlock(building1.getX(),building1.getY());
+				finder.removeBlock(building1.getX(), building1.getY());
 				for(Building building2: simBuildings.values()){					
 					if(!(building1.getName().equals(building2.getName()))){
 						//Only generate paths between wanted buildings
 						if(!(building1.getType().equals("PARC") || building2.getType().equals("PARC"))){ 
-							finder.removeBlock(building2.getX(),building2.getY());
+							finder.removeBlock(building2.getX(), building2.getY());
 							Path path = finder.findPath(building1.getX(), building1.getY(), building2.getX(), building2.getY());
 							for(int k = 1; k < path.getLength()-1; k++){
 								squares[path.getX(k)][path.getY(k)].setCode(PATH);
 							}
-							String pathName = Integer.toString(building1.getX()) +","+building1.getY()+","+building2.getX()+","+building2.getY();
-							paths.put(pathName,path);
-							finder.addBlock(building2.getX(),building2.getY());
+							String pathName = Integer.toString(building1.getX()) + "," + building1.getY() + "," + building2.getX() + "," + building2.getY();
+							paths.put(pathName, path);
+							finder.addBlock(building2.getX(), building2.getY());
 						}
 					}
 				}
-					finder.addBlock(building1.getX(),building1.getY());
+					finder.addBlock(building1.getX(), building1.getY());
 				
 			}
 			
@@ -608,21 +615,21 @@ public class ISEnv extends Environment {
 							if(!(x1 == x2 && y1 == y2)){
 								if((squares[x1][y1].getCode()==PATH && squares[x2][y2].getCode()!=EMPTY) || (squares[x2][y2].getCode()==PATH && squares[x1][y1].getCode()!=EMPTY)){
 									try {
-										boolean blocked1=false;
-										boolean blocked2=false;
-										if(finder.blocked(x1,y1)){
-											finder.removeBlock(x1,y1);
+										boolean blocked1 = false;
+										boolean blocked2 = false;
+										if(finder.blocked(x1, y1)){
+											finder.removeBlock(x1, y1);
 											blocked1 = true;
 										}
-										if(finder.blocked(x2,y2)){
-											finder.removeBlock(x2,y2);
+										if(finder.blocked(x2, y2)){
+											finder.removeBlock(x2, y2);
 											blocked2 = true;
 										}
 										
-										Path path = finder.findPath(x1,y1,x2,y2);
+										Path path = finder.findPath(x1, y1 ,x2, y2);
 										if(path!=null){
-											String pathName = Integer.toString(x1) +","+Integer.toString(y1)+","+Integer.toString(x2)+","+Integer.toString(y2);
-											paths.put(pathName,path);
+											String pathName = Integer.toString(x1) + "," + Integer.toString(y1) + "," + Integer.toString(x2) + "," + Integer.toString(y2);
+											paths.put(pathName, path);
 										}
 										/*if(x1==10 && y1==11 && x2==11 && y2==11){
 											System.out.println(x1);
@@ -666,12 +673,12 @@ public class ISEnv extends Environment {
 			int agentid = simAgents.get(agent).getId();
 			Location s = getAgPos(agentid);
 			try{
-			Path path = simAgents.get(agent).getPaths().get(Integer.toString(s.x) + "," + Integer.toString(s.y) + "," + Integer.toString(ex) +"," + Integer.toString(ey));
+			Path path = simAgents.get(agent).getPaths().get(Integer.toString(s.x) + "," + Integer.toString(s.y) + "," + Integer.toString(ex) + "," + Integer.toString(ey));
 			path.prependStep(s.x,s.y);
 			
 			for(int i=1;i<path.getLength();i++){
 				//System.out.println("Moving " + agent + " to " + path.getX(i) +"," + path.getY(i));
-				String loc = Integer.toString(path.getX(i)) + ","+ Integer.toString(path.getY(i));
+				String loc = Integer.toString(path.getX(i)) + "," + Integer.toString(path.getY(i));
 				if(closed.contains(loc)){
 					//System.out.println(getAgPos(agentid));
 					return false;
@@ -688,7 +695,7 @@ public class ISEnv extends Environment {
 			} catch (Exception e){
 				e.printStackTrace();
 				System.out.println(agent);
-				System.out.println(Integer.toString(s.x) + "," + Integer.toString(s.y) + "," + Integer.toString(ex) +"," + Integer.toString(ey));
+				System.out.println(Integer.toString(s.x) + "," + Integer.toString(s.y) + "," + Integer.toString(ex) + "," + Integer.toString(ey));
 			}
 			return true;
 		}
@@ -747,7 +754,7 @@ public class ISEnv extends Environment {
 					//String name = buildingsBox.getSelectedItem().toString();
 					if(!mouse){
 						if(!agent.equals("Select agent")){
-							agentInfo.setText("<html>Agent:" + agent+"<br>Position:"+agentPos.get(agent) + "<br>Goal:"+ simAgents.get(agent).getGoal()+"</html>");
+							agentInfo.setText("<html>Agent:" + agent + "<br>Position:" + agentPos.get(agent) + "<br>Goal:" + simAgents.get(agent).getGoal() + "</html>");
 						/*}else if(name.equals("lab1")){
 							simBuildings.get(name).setAccessible(false);
 							agentInfo.setText(name + ":" + simBuildings.get(name).isAccessible());
@@ -838,7 +845,7 @@ public class ISEnv extends Environment {
 					String agent = agentsBox.getSelectedItem().toString();
 					mouse = false;
 					if(!agent.equals("Select agent")){
-						agentInfo.setText("<html>Agent:" + agent+"<br>Position:"+agentPos.get(agent) + "<br>Goal:"+ simAgents.get(agent).getGoal()+"</html>");
+						agentInfo.setText("<html>Agent:" + agent + "<br>Position:" + agentPos.get(agent) + "<br>Goal:" + simAgents.get(agent).getGoal() + "</html>");
 					} else{
 						agentInfo.setText("");
 					}
@@ -871,7 +878,7 @@ public class ISEnv extends Environment {
 					if(!clicked){
 						if (col >= 0 && lin >= 0 && col < getModel().getWidth() && lin < getModel().getHeight()) {
 							mouse = true;
-							String text = "<html>Position:("+col+","+lin+")<br>";
+							String text = "<html>Position:(" + col + "," + lin + ")<br>";
 							Building building = squares[col][lin].getBuilding();
 							ArrayList<Agent> agents = squares[col][lin].getAgents();
 							if (squares[col][lin].getCode() != EMPTY && building != null){
