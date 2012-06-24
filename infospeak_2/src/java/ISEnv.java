@@ -744,9 +744,15 @@ public class ISEnv extends Environment {
 		boolean mouse;
 		boolean clicked = false;
 		//Separate thread to display dynamic elements (time, day, agent information)
-		public class write2 extends Thread{
-			public void run(){
-				while(true){
+		//public class write2 extends Thread{
+		//	public void run(){
+		//		while(true){
+		
+		
+		//modification
+		
+		public void showStuff(){
+			
 					showTime.setText(Tools.showTime(time.getTime()));
 					showDay.setText(Tools.day(time.getDay()));
 					showWeek.setText(Integer.toString(time.getWeek()));
@@ -758,13 +764,17 @@ public class ISEnv extends Environment {
 						/*}else if(name.equals("lab1")){
 							simBuildings.get(name).setAccessible(false);
 							agentInfo.setText(name + ":" + simBuildings.get(name).isAccessible());
-						*/} else{
+							
+						*/
+						
+						} else{
    					//	agentInfo.setText("");
 						}			
 					}
-				}
-			}
 		}
+				//}
+			//}
+		//}
 		//
 
         public ISView(ISModel model) {
@@ -946,7 +956,8 @@ public class ISEnv extends Environment {
             public void mouseReleased(MouseEvent e) {}
         });
 			
-			(new write2()).start();	
+			//(new write2()).start();
+			this.showStuff();
 			defaultFont = new Font("Arial", Font.BOLD, 12); // change default font
             setVisible(true);			
             repaint();
