@@ -549,7 +549,7 @@ public class ISEnv extends Environment {
 			}
 		}
 	}
-	
+	//
 	//ISEnv model
     class ISModel extends GridWorldModel {
         private ISModel() {
