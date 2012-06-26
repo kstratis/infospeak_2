@@ -138,7 +138,7 @@ public class ISEnv extends Environment {
 						/*for(Agent agent: simAgents.values()){
 							agent.setPathFinder(new AStarPathFinder(500,gridSize,gridSize));
 						}*/
-						finder = new AStarPathFinder(500,gridSize,gridSize);
+						finder = new AStarPathFinder(500, gridSize, gridSize);
 						squares = new Square[gridSize][gridSize];
 					} else if (input.startsWith("hl")){
 						hour = Integer.parseInt(input.substring(3));
@@ -151,8 +151,8 @@ public class ISEnv extends Environment {
 						input = input.substring(input.indexOf(':')+1);
 						String[] split = input.split(",");
 						if(split.length <= 4){
-							Building building = new Building(name +","+input);
-							simBuildings.put(name,building);									
+							Building building = new Building(name + "," + input);
+							simBuildings.put(name, building);									
 						// If the building is on more than one square, create several building objecs 
 						}else{
 							int startx = Integer.parseInt(split[2]);
@@ -161,17 +161,17 @@ public class ISEnv extends Environment {
 							int endy = Integer.parseInt(split[5]);			
 							for(int i = startx; i <= endx; i++){
 								for(int j = starty; j <= endy; j++){
-									String data = name + "," + split[0] + ","+split[1]+ ","+Integer.toString(i)+","+Integer.toString(j);
+									String data = name + "," + split[0] + "," + split[1] + "," + Integer.toString(i) + "," + Integer.toString(j);
 									Building building = new Building(data);
-									simBuildings.put(name+Integer.toString(i)+","+Integer.toString(j),building);
+									simBuildings.put(name+Integer.toString(i) + "," + Integer.toString(j), building);
 								}
 							}
 						}
 					// Set lectures
 					} else if (input.startsWith("lt")){
 						input = input.substring(3);
-						String course = input.substring(0,input.indexOf(':'));
-						input = input.substring(input.indexOf(':')+1);
+						String course = input.substring(0, input.indexOf(':'));
+						input = input.substring(input.indexOf(':') + 1);
 						Lecture lecture = new Lecture(input);
 						if(simCourses.containsKey(course)){
 							simCourses.get(course).addLecture(lecture);
@@ -183,16 +183,16 @@ public class ISEnv extends Environment {
 					// Set assignments
 					} else if (input.startsWith("la")){	
 						input = input.substring(3);
-						String course = input.substring(0,input.indexOf(':'));
-						input = input.substring(input.indexOf(':')+1);
+						String course = input.substring(0, input.indexOf(':'));
+						input = input.substring(input.indexOf(':') + 1);
 						try{
-							Assignment assignment = new Assignment(course+","+input);
+							Assignment assignment = new Assignment(course + "," + input);
 							if(simCourses.containsKey(course)){
 								simCourses.get(course).addAssignment(assignment);
 							} else {
 								Course newCourse = new Course(course);
 								newCourse.addAssignment(assignment);
-								simCourses.put(course,newCourse);
+								simCourses.put(course, newCourse);
 							}
 						} catch (IllegalArgumentException e){
 							System.out.println(e);
@@ -228,7 +228,7 @@ public class ISEnv extends Environment {
 						for(int i=0; i < courses.length;i++){
 							coursesList.add(courses[i]);
 						}
-						courseGroups.put(group,coursesList);
+						courseGroups.put(group, coursesList);
 					// Set courses for every agent
 					} else if (input.startsWith("al")){
 						input = input.substring(3);
@@ -237,9 +237,9 @@ public class ISEnv extends Environment {
 						String[] courses = input.split(",");
 						ArrayList<String> coursesList = new ArrayList<String>();
 						// If the course is in fact a course group, add all courses in that group to agent
-						for(int i=0; i < courses.length;i++){
+						for(int i=0; i < courses.length; i++){
 							if(courseGroups.containsKey(courses[i])){
-								for(int j = 0; j < courseGroups.get(courses[i]).size();j++){
+								for(int j = 0; j < courseGroups.get(courses[i]).size(); j++){
 									if(!coursesList.contains(courseGroups.get(courses[i]).get(j))){
 										coursesList.add(courseGroups.get(courses[i]).get(j));
 									}
@@ -340,6 +340,7 @@ public class ISEnv extends Environment {
 		for(Event event : simEvents.values()){
 			simAgents.get(event.getAgent()).addEvent(event);
 		}
+		System.out.println("Finished parsing!!");
 	}
 	
 	//Execute actions
@@ -431,10 +432,10 @@ public class ISEnv extends Environment {
 	
 	//Set initial percepts
 	void setInitialPercepts() {
-		setTime();
-		setCourses();
-		setEvents();
-		setBuildings();
+		//setTime();
+		//setCourses();
+		//setEvents();
+		//setBuildings();
 	}
 	
 	void setTime(){
@@ -449,6 +450,7 @@ public class ISEnv extends Environment {
 
 	//Add lecture and assignment percepts for every agent
 	void setCourses(){
+		System.out.println("Inside the setCourses method!!");
 		ArrayList<String> courses;
 		for(String agent: simAgents.keySet()){
 			if(!simAgents.get(agent).getCourses().isEmpty()){
