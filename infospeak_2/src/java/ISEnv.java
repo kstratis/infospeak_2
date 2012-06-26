@@ -75,44 +75,20 @@ public class ISEnv extends Environment {
 			//This means "for every 'category' of agents (i.e. lecturer, balancedStudent etc.)"
 			for (AgentParameters ap : project.getAgents()) {
 				agName = ap.name;
+				numberedAg = new StringBuffer(agName);
 				System.out.println("the value of ap.qty is: " + ap.qty);
-				
-				
-				if (ap.qty > 1) {
-					numberedAg = new StringBuffer(agName);
 					
-					for (int cAg = 0; cAg < ap.qty; cAg++) {
-						numberedAg.append(cAg + 1);
-					}
-				}
-				else numbered
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				//This means for every agent of a particular category (i.e. maybe there are 2 lecturers)
-				for (int cAg = 0; cAg < ap.qty; cAg++) {
-					numberedAg = new StringBuffer(agName);
-					
-					
+				for (int cAg = 0; cAg < ap.qty; cAg++) {		
 					if (ap.qty > 1) {
 						System.out.println("I am in before: "+ numberedAg);
-						numberedAg += (cAg + 1);
+						numberedAg.append(cAg + 1);
 						System.out.println("I am in after: "+ numberedAg);
-					}
-					
+					}	
 					//Store names for easy access to ids from names and vice-versa
-					Agent agent = new Agent(numberedAg, agName, cAg+1, i);
-					simAgents.put(numberedAg,agent);
-					agentNames.put(i, numberedAg);
+					Agent agent = new Agent(numberedAg.toString(), agName, cAg+1, i);
+					simAgents.put(numberedAg.toString(),agent);
+					agentNames.put(i, numberedAg.toString());
 					i++;
 				}
 			}
