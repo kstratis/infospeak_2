@@ -24,6 +24,7 @@ public class ISEnv extends Environment {
 	public static final int EMPTY = 8;
 	public static final int PATH  = 16;
 	
+	//Time is a custom made class
 	Time time;
 	
 	// Length of simulated hour and amount of time between agent actions (ms)
@@ -35,6 +36,9 @@ public class ISEnv extends Environment {
 
 	// Number of agents
 	int agentNum;
+	
+	// Using the algorithm to get paths
+	AStarPathFinder finder;
 	
 	// Simulation entities
 	Map<String, Agent> simAgents = new HashMap<String, Agent>();
@@ -49,39 +53,65 @@ public class ISEnv extends Environment {
 	ArrayList<String> closed = new ArrayList<String>();
 	Map<String, ArrayList<String>> agentGroups = new HashMap<String, ArrayList<String>>();
 	Map<String, ArrayList<String>> courseGroups = new HashMap<String, ArrayList<String>>();
-
-	AStarPathFinder finder;
 	
+	//The logger is used for printing messages in Jason console
     static Logger logger = Logger.getLogger(ISEnv.class.getName());
 	
-    //This is the infospeak model and view
+    //This is the infospeak model and view - as on the examples - 
     private ISModel model;
     private ISView  view;
    
     @Override
     public void init(String[] args){		
 		time = new Time();
-		//Parse .mas2J file and get all of the agents (names and number)
+		String agName;
+		StringBuffer numberedAg;
+		//Parse .mas2J file and get all the agents' names and numbers
 		try {
       		mas2j parser = new mas2j(new FileInputStream(args[0]));
 			MAS2JProject project = parser.mas();
 			int i = 0;
 			
+			//This means "for every 'category' of agents (i.e. lecturer, balancedStudent etc.)"
 			for (AgentParameters ap : project.getAgents()) {
-				String agName = ap.name;
+				agName = ap.name;
+				System.out.println("the value of ap.qty is: " + ap.qty);
 				
+				
+				if (ap.qty > 1) {
+					numberedAg = new StringBuffer(agName);
+					
+					for (int cAg = 0; cAg < ap.qty; cAg++) {
+						numberedAg.append(cAg + 1);
+					}
+				}
+				else numbered
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				//This means for every agent of a particular category (i.e. maybe there are 2 lecturers)
 				for (int cAg = 0; cAg < ap.qty; cAg++) {
-					String numberedAg = agName;
+					numberedAg = new StringBuffer(agName);
+					
 					
 					if (ap.qty > 1) {
+						System.out.println("I am in before: "+ numberedAg);
 						numberedAg += (cAg + 1);
+						System.out.println("I am in after: "+ numberedAg);
 					}
 					
 					//Store names for easy access to ids from names and vice-versa
-					Agent agent = new Agent(numberedAg,agName,cAg+1,i);
-					//agent.printInfo();
+					Agent agent = new Agent(numberedAg, agName, cAg+1, i);
 					simAgents.put(numberedAg,agent);
-					//agentNums.put(numberedAg, i);
 					agentNames.put(i, numberedAg);
 					i++;
 				}

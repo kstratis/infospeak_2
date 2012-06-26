@@ -5,7 +5,7 @@ MAS infoSpeak {
     environment: ISEnv("infoSpeak_2.mas2j")
     
     agents: 
-	  lecturer #1;
+	  lecturer #2;
 	  studiousStudent #1;
       carefreeStudent #1; 
 	  balancedStudent #1;
