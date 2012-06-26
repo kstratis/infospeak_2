@@ -99,7 +99,7 @@ public class ISEnv extends Environment {
 //---------------------------------	  PROCESSED UP TO HERE   -----------------------------------//
 //----------------------------------------------------------------------------------------------//	
 			
-			//Initialise view and percepts
+			//Initialize view and percepts
 			
 			model = new ISModel();
 			view  = new ISView(model);
@@ -742,7 +742,7 @@ public class ISEnv extends Environment {
 	//ISEnv view
     class ISView extends GridWorldView implements ActionListener{
 		/**
-		 *  CHANGED LINE - AUTOMATICALLY GENERATED
+		 * 
 		 */
 		private static final long serialVersionUID = -3896711432180019837L;
 		//Variables for GUI
