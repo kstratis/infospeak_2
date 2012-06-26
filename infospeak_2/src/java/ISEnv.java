@@ -64,8 +64,7 @@ public class ISEnv extends Environment {
     @Override
     public void init(String[] args){		
 		time = new Time();
-		String agName;
-		StringBuffer numberedAg;
+		String agName, numberedAg;
 		//Parse .mas2J file and get all the agents' names and numbers
 		try {
       		mas2j parser = new mas2j(new FileInputStream(args[0]));
@@ -74,25 +73,20 @@ public class ISEnv extends Environment {
 			
 			//This means "for every 'category' of agents (i.e. lecturer, balancedStudent etc.)"
 			for (AgentParameters ap : project.getAgents()) {
-				agName = ap.name;
+				agName = numberedAg = new String(ap.name);
 				
-				
-				System.out.println("the value of ap.qty is: " + ap.qty);
-					
-				//This means for every agent of a particular category (i.e. maybe there are 2 lecturers)
 				for (int cAg = 0; cAg < ap.qty; cAg++) {
-					numberedAg = new StringBuffer(agName);
 					
 					if (ap.qty > 1) {
-						System.out.println("I am in before: "+ numberedAg);
-						numberedAg.append(cAg + 1);
-						System.out.println("I am in after: "+ numberedAg);
-					}	
+						numberedAg += (cAg + 1);
+					}
 					
 					//Store names for easy access to ids from names and vice-versa
-					Agent agent = new Agent(numberedAg.toString(), agName, cAg+1, i);
-					simAgents.put(numberedAg.toString(),agent);
-					agentNames.put(i, numberedAg.toString());
+					Agent agent = new Agent(numberedAg, agName, cAg+1, i);
+					//agent.printInfo();
+					simAgents.put(numberedAg,agent);
+					//agentNums.put(numberedAg, i);
+					agentNames.put(i, numberedAg);
 					i++;
 				}
 			}
