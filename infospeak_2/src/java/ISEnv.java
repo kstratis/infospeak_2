@@ -75,13 +75,13 @@ public class ISEnv extends Environment {
 			for (AgentParameters ap : project.getAgents()) {
 				agName = numberedAg = new String(ap.name);
 				
-				for (int cAg = 0; cAg < ap.qty; cAg++) {
-					
+				for (int cAg = 0; cAg < ap.qty; cAg++) {	
 					if (ap.qty > 1) {
 						numberedAg += (cAg + 1);
 					}
 					
 					//Store names for easy access to ids from names and vice-versa
+					//Agent is a custom made class found within the project's directory
 					Agent agent = new Agent(numberedAg, agName, cAg+1, i);
 					//agent.printInfo();
 					simAgents.put(numberedAg,agent);
@@ -94,7 +94,11 @@ public class ISEnv extends Environment {
 			//Parse config file to set up environment
 			parseConfig();
 			agentNum = simAgents.size();
-			//sleep =  Math.round(hour/40/agentNum);
+			
+			
+//---------------------------------	  PROCESSED UP TO HERE   -----------------------------------//
+//----------------------------------------------------------------------------------------------//	
+			
 			//Initialise view and percepts
 			
 			model = new ISModel();
@@ -117,7 +121,9 @@ public class ISEnv extends Environment {
 	// Parse config file
 	public void parseConfig(){
 		String line = "";
-		ArrayList<String> buildings = new ArrayList<String>();
+		//--LINE CHANGE
+		//ArrayList<String> buildings = new ArrayList<String>();
+		
 		try {
 			DataInputStream in = new DataInputStream(new FileInputStream("src/java/infospeak.config"));
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -374,7 +380,8 @@ public class ISEnv extends Environment {
 					}
 				} else if (action.getFunctor().equals("work_one_hour")){
 					int currentTime = (int)((NumberTerm)action.getTerm(0)).solve();
-					int currentWork = (int)((NumberTerm)action.getTerm(1)).solve();
+					//--LINE CHANGE
+					//int currentWork = (int)((NumberTerm)action.getTerm(1)).solve();
 					while(currentTime== time.getTime()){
 						//Work for one hour
 					}
@@ -734,6 +741,10 @@ public class ISEnv extends Environment {
     
 	//ISEnv view
     class ISView extends GridWorldView implements ActionListener{
+		/**
+		 *  CHANGED LINE - AUTOMATICALLY GENERATED
+		 */
+		private static final long serialVersionUID = -3896711432180019837L;
 		//Variables for GUI
 		JLabel showTime = new JLabel(Tools.showTime(time.getTime()));
 		JLabel showDay = new JLabel(Integer.toString(time.getDay()));
@@ -741,7 +752,7 @@ public class ISEnv extends Environment {
 		
 		JSlider   jSpeed;
 		JButton button;
-		JComboBox agentsBox;
+		JComboBox<String> agentsBox;
 		//JComboBox buildingsBox;
 		JLabel agentInfo;
 		JLabel mouseInfo;
@@ -806,7 +817,7 @@ public class ISEnv extends Environment {
 			args.add(p);
 			args.add(wp);
 			
-			agentsBox = new JComboBox();
+			agentsBox = new JComboBox<String>();
 			agentsBox.setFont(new Font("Arial",Font.PLAIN,11));
 			agentsBox.addItem("Select agent");
 			
@@ -1007,9 +1018,12 @@ public class ISEnv extends Environment {
         @Override
         public void drawAgent(Graphics g, int x, int y, Color c, int id) {
 			String label = "";
-			String agentName = agentNames.get(id);
-			String position = Integer.toString(x) + "," + Integer.toString(y);
+			
+			//--CHANGED LINES
+			//String agentName = agentNames.get(id);
+			//String position = Integer.toString(x) + "," + Integer.toString(y);
 			// If more than one agent in square, draw multiple agents symbol
+			
 			if(squares[x][y].getAgents().size() >1){
 				label = "...";
 				int shade = 0;
