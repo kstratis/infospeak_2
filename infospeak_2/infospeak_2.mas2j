@@ -7,8 +7,8 @@ MAS infoSpeak {
     agents: 
 	  lecturer #1;
 	  studiousStudent #1;
-      carefreeStudent #1; 
-	  balancedStudent #1;
+      //carefreeStudent #1; 
+	  //balancedStudent #1;
 	 
 	 
 	 aslSourcePath:

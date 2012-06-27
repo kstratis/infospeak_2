@@ -432,10 +432,10 @@ public class ISEnv extends Environment {
 	
 	//Set initial percepts
 	void setInitialPercepts() {
-		//setTime();
-		//setCourses();
-		//setEvents();
-		//setBuildings();
+		setTime();
+		setCourses();
+		setEvents();
+		setBuildings();
 	}
 	
 	void setTime(){
@@ -558,6 +558,8 @@ public class ISEnv extends Environment {
 						Thread.sleep(hour);
 					} catch (InterruptedException e){
 					}
+				}else {
+					System.out.println("koukou");
 				}
 			}
 		}
@@ -761,14 +763,14 @@ public class ISEnv extends Environment {
 		boolean mouse;
 		boolean clicked = false;
 		//Separate thread to display dynamic elements (time, day, agent information)
-		//public class write2 extends Thread{
-		//	public void run(){
-		//		while(true){
+		public class write2 extends Thread{
+			public void run(){
+				while(true){
 		
 		
 		//modification
 		
-		public void showStuff(){
+		
 			
 					showTime.setText(Tools.showTime(time.getTime()));
 					showDay.setText(Tools.day(time.getDay()));
@@ -789,8 +791,8 @@ public class ISEnv extends Environment {
 						}			
 					}
 		}
-				//}
-			//}
+				}
+			}
 		//}
 		//
 
@@ -973,8 +975,8 @@ public class ISEnv extends Environment {
             public void mouseReleased(MouseEvent e) {}
         });
 			
-			//(new write2()).start();
-			this.showStuff();
+			(new write2()).start();
+			//this.showStuff();
 			defaultFont = new Font("Arial", Font.BOLD, 12); // change default font
             setVisible(true);			
             repaint();
