@@ -7,6 +7,7 @@ import jason.environment.grid.Location;
 import jason.mas2j.parser.*;
 import jason.mas2j.*;
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -382,14 +383,14 @@ public class ISEnv extends Environment {
 					//Update all percepts
 				} else if (action.getFunctor().equals("one_hour")){
 					int currentTime = (int)((NumberTerm)action.getTerm(0)).solve();
-					while(currentTime== time.getTime()){
+					while(currentTime == time.getTime()){
 						//Wait for one hour
 					}
 				} else if (action.getFunctor().equals("work_one_hour")){
 					int currentTime = (int)((NumberTerm)action.getTerm(0)).solve();
 					//--LINE CHANGE
 					//int currentWork = (int)((NumberTerm)action.getTerm(1)).solve();
-					while(currentTime== time.getTime()){
+					while(currentTime == time.getTime()){
 						//Work for one hour
 					}
 				} else {
@@ -541,7 +542,7 @@ public class ISEnv extends Environment {
 					time.increment();
 					Literal timeNow = Literal.parseLiteral("time(" + String.valueOf(time.getTime()) + ")");
 					Literal timeBefore;
-					if(time.getTime()==8){
+					if(time.getTime() == 8){
 						timeBefore=Literal.parseLiteral("time(23)");
 						Literal dayNow = Literal.parseLiteral("day(" + String.valueOf(time.getDay()) + ")");
 						Literal dayBefore;
@@ -570,6 +571,7 @@ public class ISEnv extends Environment {
 				//--CHANGED LINE HERE
 				else{
 				System.out.println("Time Thread running...");
+				//OPTIONAL BLOCK OF CODE HERE
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -779,6 +781,9 @@ public class ISEnv extends Environment {
 		//JComboBox buildingsBox;
 		JLabel agentInfo;
 		JLabel mouseInfo;
+		
+		//final TheWorker task = new TheWorker();
+		
 		boolean mouse;
 		boolean clicked = false;
 		//Separate thread to display dynamic elements (time, day, agent information)
@@ -923,6 +928,7 @@ public class ISEnv extends Environment {
 			getCanvas().addMouseMotionListener(new MouseMotionListener() {
 				public void mouseDragged(MouseEvent e) { }
 				public void mouseMoved(MouseEvent e) {
+					
 					int col = e.getX() / cellSizeW;
 					int lin = e.getY() / cellSizeH;
 					if(!clicked){
@@ -945,23 +951,27 @@ public class ISEnv extends Environment {
 							agentInfo.setText(text);
 						}
 					}
-				}            
+				    }        
 			});
 			
 			getCanvas().addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-				int col = e.getX() / cellSizeW;
+				
+            	int col = e.getX() / cellSizeW;
 				int lin = e.getY() / cellSizeH;
 				if (col >= 0 && lin >= 0 && col < getModel().getWidth() && lin < getModel().getHeight()) {
+					
 					if(e.getButton() == MouseEvent.BUTTON1){
                 		mouse = true;
 						clicked = !clicked;
-						String text = "<html>Position:("+col+","+lin+")<br>";
+						String text = "<html>Position:(" + col + "," + lin + ")<br>";
 						Building building = squares[col][lin].getBuilding();
 						ArrayList<Agent> agents = squares[col][lin].getAgents();
+						
 						if (squares[col][lin].getCode() != EMPTY && building != null){
 							text+= building.getType() + ": " + building.getName() + "<br>";
 						}
+						
 						if(!agents.isEmpty()){
 							text+= "Agents:";
 							for(Agent agent: agents){
@@ -1104,5 +1114,4 @@ public class ISEnv extends Environment {
 			drawString(g, x, y, defaultFont, label);
         }
     } 
-    //class TheWorker extends SwingWorker<Integer, Integer> {}
 }

@@ -8,15 +8,15 @@ class Time{
 	private int day = 1;
 	private int week = 1;
 	
-	public synchronized int getTime(){
+	public int getTime(){
 		return time;
 	}
 	
-	public synchronized int getDay(){
+	public int getDay(){
 		return day;
 	}
 	
-	public synchronized int getWeek(){
+	public int getWeek(){
 		return week;
 	}
 	

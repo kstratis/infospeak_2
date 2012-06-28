@@ -7,7 +7,7 @@
 !start.
 /* Plans */
 
-+!start <- .my_name(Me); !checkevents(Me).
++!start <- .my_name(Me). // !checkevents(Me).
 
 +!checkevents(Me): week(WeekNow) & day(DayNow) & time(TimeNow)<- .findall(event(Name,Week,Day,Time,Place,Priority),event(Name,Week,Day,Time,Place,Priority)& (Week==0 | Week ==WeekNow) & Day == DayNow & Time == TimeNow,L); !pickaction(Me,L,WeekNow,DayNow,TimeNow).
 
