@@ -93,6 +93,7 @@ public class ISEnv extends Environment {
 			
 			//Parse config file to set up environment
 			parseConfig();
+			System.out.println("Parsed configuration file DONE...");
 			agentNum = simAgents.size();
 			
 			
@@ -107,10 +108,15 @@ public class ISEnv extends Environment {
 			
 			setInitialPercepts();
 			//updatePercepts();
+			System.out.println("Initial Percepts Done...");
 			
+			//This returns the names of the agents and 
+			//comfortably feeds them as parameters in the 
+			//method to get original positions.
 			for(String a: simAgents.keySet()){
 				updatePosition(a);
 			}
+			System.out.println("Updated positions DONE...");
 			// Start time
 			new write().start();			
 		} 
@@ -323,7 +329,7 @@ public class ISEnv extends Environment {
 				int code = lastCode * 2;
 				building.setCode(code);
 				buildingCodes.put(building.getType(), code);
-				buildingCodesD.put(code,building.getType());
+				buildingCodesD.put(code, building.getType());
 				lastCode = code;
 			} else {
 				building.setCode(buildingCodes.get(building.getType()));
@@ -411,7 +417,9 @@ public class ISEnv extends Environment {
 		removePercept(Literal.parseLiteral("pos(" + ag + "," + simAgents.get(ag).getPos() + ")"));
 		String x = Integer.toString(model.getAgPos(simAgents.get(ag).getId()).x);
 		String y = Integer.toString(model.getAgPos(simAgents.get(ag).getId()).y);
-		simAgents.get(ag).setPos(Integer.parseInt(x),Integer.parseInt(y));
+		
+		simAgents.get(ag).setPos(Integer.parseInt(x), Integer.parseInt(y));
+		System.out.println("x is: " + x + " and y: " + y);
 		
 		//Remove old agent position and replace by new
 		String position = x + "," + y;		
@@ -426,7 +434,7 @@ public class ISEnv extends Environment {
 			agentHere.add(ag);
 			agentByPos.put(position, agentHere);
 		}
-		agentPos.put(ag,position);
+		agentPos.put(ag, position);
 		addPercept(Literal.parseLiteral("pos(" + ag + "," + simAgents.get(ag).getPos() + ")"));
 	}
 	
@@ -543,12 +551,12 @@ public class ISEnv extends Environment {
 							Literal weekBefore=Literal.parseLiteral("week(" + String.valueOf(time.getWeek()-1) + ")");
 							addPercept(weekNow);
 							removePercept(weekBefore);
-						} else {
+						}else {
 							dayBefore = Literal.parseLiteral("day(" + String.valueOf(time.getDay()-1) + ")");
 						}
 						addPercept(dayNow);
 						removePercept(dayBefore);
-					} else {
+					}else {
 						timeBefore=Literal.parseLiteral("time(" + String.valueOf(time.getTime()-1) + ")");
 					}
 					addPercept(timeNow);
@@ -556,11 +564,20 @@ public class ISEnv extends Environment {
 					System.out.println(time.getTime());
 					try{
 						Thread.sleep(hour);
-					} catch (InterruptedException e){
+					}catch (InterruptedException e){
 					}
-				}else {
-					System.out.println("koukou");
+			}
+				//--CHANGED LINE HERE
+				else{
+				System.out.println("Time Thread running...");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				}
+				
 			}
 		}
 	}
@@ -571,6 +588,7 @@ public class ISEnv extends Environment {
             super(gridSize, gridSize, agentNum);
             //Set buildings
 			setSquares();
+			
 			for(int i = 0; i < squares.length; i++){
 				for(int j = 0; j < squares.length; j++){
 					add(squares[i][j].getCode(), i, j);
@@ -673,6 +691,7 @@ public class ISEnv extends Environment {
 			for(Agent agent: simAgents.values()){
 				agent.setPaths(paths);
 			}
+			System.out.println("Square drawing ...DONE");
 			/*// If square is not a path, it cannot be used by agents to move around, so set as blocked to path finder
 			for (int i = 0; i< gridSize; i++){
 				for (int j = 0; j< gridSize; j++){
@@ -754,7 +773,7 @@ public class ISEnv extends Environment {
 		JLabel showDay = new JLabel(Integer.toString(time.getDay()));
 		JLabel showWeek = new JLabel(Integer.toString(time.getWeek()));
 		
-		JSlider   jSpeed;
+		JSlider jSpeed;
 		JButton button;
 		JComboBox<String> agentsBox;
 		//JComboBox buildingsBox;
@@ -790,6 +809,7 @@ public class ISEnv extends Environment {
    					//	agentInfo.setText("");
 						}			
 					}
+					
 		}
 				}
 			}
@@ -1083,5 +1103,6 @@ public class ISEnv extends Environment {
 			g.setColor(Color.white);
 			drawString(g, x, y, defaultFont, label);
         }
-    }    
+    } 
+    //class TheWorker extends SwingWorker<Integer, Integer> {}
 }
