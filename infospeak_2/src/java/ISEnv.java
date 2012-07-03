@@ -442,9 +442,13 @@ public class ISEnv extends Environment {
 	//Set initial percepts
 	void setInitialPercepts() {
 		setTime();
+		System.out.println("Time set... DONE");
 		setCourses();
+		System.out.println("Courses set... DONE");
 		setEvents();
+		System.out.println("Events set... DONE");
 		setBuildings();
+		System.out.println("Buildings set... DONE");
 	}
 	
 	void setTime(){
@@ -534,7 +538,8 @@ public class ISEnv extends Environment {
 		public void run(){
 			while(true){
 				try{
-					Thread.sleep(1);
+					//was Thread.sleep(1);
+					Thread.sleep(50);
 				} 
 				catch (InterruptedException e){
 				}
@@ -573,7 +578,7 @@ public class ISEnv extends Environment {
 				System.out.println("Time Thread running...");
 				//OPTIONAL BLOCK OF CODE HERE
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(5000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -790,12 +795,7 @@ public class ISEnv extends Environment {
 		public class write2 extends Thread{
 			public void run(){
 				while(true){
-		
-		
-		//modification
-		
-		
-			
+					
 					showTime.setText(Tools.showTime(time.getTime()));
 					showDay.setText(Tools.day(time.getDay()));
 					showWeek.setText(Integer.toString(time.getWeek()));
@@ -803,23 +803,20 @@ public class ISEnv extends Environment {
 					//String name = buildingsBox.getSelectedItem().toString();
 					if(!mouse){
 						if(!agent.equals("Select agent")){
-							agentInfo.setText("<html>Agent:" + agent + "<br>Position:" + agentPos.get(agent) + "<br>Goal:" + simAgents.get(agent).getGoal() + "</html>");
-						/*}else if(name.equals("lab1")){
-							simBuildings.get(name).setAccessible(false);
-							agentInfo.setText(name + ":" + simBuildings.get(name).isAccessible());
-							
-						*/
-						
-						} else{
-   					//	agentInfo.setText("");
-						}			
+							agentInfo.setText("<html>Agent:" + agent + "<br>Position:" + agentPos.get(agent) + "<br>Goal:" + simAgents.get(agent).getGoal() + "</html>");									
+						}	
 					}
-					
-		}
+					try {
+						//Thread should go to sleep for a while or else hangs
+						Thread.sleep(100);
+					} 
+					catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
-		//}
-		//
+		}
 
         public ISView(ISModel model) {
             super(model, "InfoSpeak World", 600);
@@ -1009,7 +1006,7 @@ public class ISEnv extends Environment {
 			//this.showStuff();
 			defaultFont = new Font("Arial", Font.BOLD, 12); // change default font
             setVisible(true);			
-            repaint();
+            //repaint();
         }
 
 		// Pause system if pause button pressed
