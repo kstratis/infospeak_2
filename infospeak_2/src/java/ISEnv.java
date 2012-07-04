@@ -119,7 +119,8 @@ public class ISEnv extends Environment {
 			}
 			System.out.println("Updated positions DONE...");
 			// Start time
-			new write().start();			
+			new write().start();	
+			
 		} 
 		catch (Exception e){
 		}
@@ -357,21 +358,13 @@ public class ISEnv extends Environment {
 			//logger.info(ag+" doing: "+ action);
 			try {
 				if (action.getFunctor().equals("print")){
-				} else if (action.getFunctor().equals("add_goal")){
+				} 
+				else if (action.getFunctor().equals("add_goal")){
 					// Replace existing goal
 					String goal = ((StringTerm)action.getTerm(0)).getString();
 					simAgents.get(ag).setGoal(goal);
-				/*} else if (action.getFunctor().equals("move_towards")) {
-					// Move agent 1 step towards destination and update position
-					int x = (int)((NumberTerm)action.getTerm(0)).solve();
-					int y = (int)((NumberTerm)action.getTerm(1)).solve();
-					boolean moved = model.moveTowards(ag,x,y);
-					// If the moved could not be done (building blocked), notify agent
-					if(!moved){
-						return false;
-					}
-					updatePosition(ag);*/
-				} else if (action.getFunctor().equals("go_to")) {
+				} 
+				else if (action.getFunctor().equals("go_to")) {
 					int x = (int)((NumberTerm)action.getTerm(0)).solve();
 					int y = (int)((NumberTerm)action.getTerm(1)).solve();
 					boolean moved = model.goTo(ag,x,y);
@@ -406,8 +399,30 @@ public class ISEnv extends Environment {
 			//updatePercepts();
 			try {
 				Thread.sleep(sleep);
-      	  	} catch (Exception e) {	
+      	  	} 
+			catch (Exception e) {	
 			}		  
+		}
+		else{
+			
+		/*	
+			try{
+				System.out.println("Adding the percept");
+				Literal stop = Literal.parseLiteral("stop");
+				addPercept(stop);
+			}
+			catch (Exception e){
+				System.out.println("Failed");
+				
+			}
+			*/
+			
+			
+			
+			
+			
+			
+			
 		}
         return true;
     }
@@ -1017,6 +1032,7 @@ public class ISEnv extends Environment {
 					button.setText("Resume");
 				} else {
 					button.setText("Pause");
+					
 				}
 			}
 		}

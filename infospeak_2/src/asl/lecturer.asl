@@ -9,7 +9,7 @@
 
 +!start <- .my_name(Me); !checkevents(Me).
 
-+!checkevents(Me): week(WeekNow) & day(DayNow) & time(TimeNow)<- .print("works"); .findall(event(Name,Week,Day,Time,Place,Priority),event(Name,Week,Day,Time,Place,Priority)& (Week==0 | Week ==WeekNow) & Day == DayNow & Time == TimeNow,L); !pickaction(Me,L,WeekNow,DayNow,TimeNow).
++!checkevents(Me): week(WeekNow) & day(DayNow) & time(TimeNow) <- .wait(1000); .findall(event(Name,Week,Day,Time,Place,Priority),event(Name,Week,Day,Time,Place,Priority)& (Week==0 | Week ==WeekNow) & Day == DayNow & Time == TimeNow,L); !pickaction(Me,L,WeekNow,DayNow,TimeNow).
 
 +!pickaction(Me,L,WeekNow,Day,Time): .length(L) == 0 <- !givelectures(Me).
 +!pickaction(Me,L,WeekNow,Day,Time): lecture(Name,Week,Day,Time,Place,Priority) &(Week == WeekNow | Week == 0) <- .concat(L,[lecture(Name,Week,Day,Time,Place,Priority)],M); ia.highest(M,X);!doaction(Me,X).
