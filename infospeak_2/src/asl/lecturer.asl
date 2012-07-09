@@ -32,9 +32,19 @@
 +!gotorestaurant(Me): pos(rest1,X,Y) <- add_goal("Going to restaurant!"); !goto(Me,X,Y).
 
 +!gohome(Me): home(H) & pos(H,X,Y) & pos(Me,Xm,Ym) & not(X == Xm & Y == Ym) <- add_goal("Day over, going home."); !goto(Me,X,Y).
-+!gohome(Me): home(H) & pos(H,X,Y) & pos(Me,Xm,Ym) & X == Xm & Y == Ym.
++!gohome(Me): home(H) & pos(H,X,Y) & pos(Me,Xm,Ym) & X == Xm & Y == Ym <- .print("Just arrived HOME").
 
 +!sleep(Me) <- add_goal("Sleeping."); !checkevents(Me).
 
-+!goto(Me,X,Y) : not pos(Me,X,Y) <- go_to(X,Y).
-+!goto(Me,X,Y) : pos(Me,X,Y).
++!goto(Me,X,Y) : not pos(Me,X,Y) <- .print("travelling"); go_to(X,Y).
+
+
+/*
+ * +!goto(Me,X,Y) : pos(Me,X,Y) <- .print("Just arrived").
+ *
+ *
+ * +!goto(Me,X,Y) : pos(Me,X,Y).
+ * 
+ */
+ 
+ 

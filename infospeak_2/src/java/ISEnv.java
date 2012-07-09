@@ -638,10 +638,10 @@ public class ISEnv extends Environment {
 			for(Building building: simBuildings.values()){
 				squares[building.getX()][building.getY()].setCode(building.getCode());
 				squares[building.getX()][building.getY()].setBuilding(building);
-				finder.addBlock(building.getX(),building.getY());
+				finder.addBlock(building.getX(), building.getY());
 			}
 			Map<String,Path> paths = new HashMap<String,Path>();
-			// Generate paths between buildings
+			//Generate paths between buildings
 			for(Building building1: simBuildings.values()){
 				finder.removeBlock(building1.getX(), building1.getY());
 				for(Building building2: simBuildings.values()){					
@@ -729,26 +729,29 @@ public class ISEnv extends Environment {
 			int agentid = simAgents.get(agent).getId();
 			Location s = getAgPos(agentid);
 			try{
-			Path path = simAgents.get(agent).getPaths().get(Integer.toString(s.x) + "," + Integer.toString(s.y) + "," + Integer.toString(ex) + "," + Integer.toString(ey));
-			path.prependStep(s.x,s.y);
+				Path path = simAgents.get(agent).getPaths().get(Integer.toString(s.x) + "," + Integer.toString(s.y) + "," + Integer.toString(ex) + "," + Integer.toString(ey));
+				path.prependStep(s.x,s.y);
 			
-			for(int i=1;i<path.getLength();i++){
-				//System.out.println("Moving " + agent + " to " + path.getX(i) +"," + path.getY(i));
-				String loc = Integer.toString(path.getX(i)) + "," + Integer.toString(path.getY(i));
-				if(closed.contains(loc)){
-					//System.out.println(getAgPos(agentid));
-					return false;
-				} else {
-					setAgPos(agentid, new Location(path.getX(i), path.getY(i)));
-					squares[path.getX(i-1)][path.getY(i-1)].removeAgent(agent);
-					squares[path.getX(i)][path.getY(i)].addAgent(simAgents.get(agent));
-					try{
-						Thread.sleep(hour/3/path.getLength());
-					} catch (Exception e){
+				for(int i=1; i<path.getLength(); i++){
+					//System.out.println("Moving " + agent + " to " + path.getX(i) +"," + path.getY(i));
+					String loc = Integer.toString(path.getX(i)) + "," + Integer.toString(path.getY(i));
+					if(closed.contains(loc)){
+						//System.out.println(getAgPos(agentid));
+						return false;
+					} else {
+						setAgPos(agentid, new Location(path.getX(i), path.getY(i)));
+						squares[path.getX(i-1)][path.getY(i-1)].removeAgent(agent);
+						squares[path.getX(i)][path.getY(i)].addAgent(simAgents.get(agent));
+						//System.out.println("JUST MOVED");
+						try{
+							Thread.sleep(hour/3/path.getLength());
+						}
+						catch (Exception e){
+						}
 					}
 				}
-			}
-			} catch (Exception e){
+			} 
+			catch (Exception e){
 				e.printStackTrace();
 				System.out.println(agent);
 				System.out.println(Integer.toString(s.x) + "," + Integer.toString(s.y) + "," + Integer.toString(ex) + "," + Integer.toString(ey));

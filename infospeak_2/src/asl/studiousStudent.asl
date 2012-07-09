@@ -52,7 +52,14 @@
 //+!goto(Me,X,Y) : pos(Me,X,Y) <- print("Reached!").
 
 +!goto(Me,X,Y) : not pos(Me,X,Y) <- go_to(X,Y).
-+!goto(Me,X,Y) : pos(Me,X,Y).
+
+/* 
+ * +!goto(Me,X,Y) : pos(Me,X,Y) <- .print("Just arrived").
+ *
+ *
+ * +!goto(Me,X,Y) : pos(Me,X,Y).
+ * 
+ */
 
 
 
