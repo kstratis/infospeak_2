@@ -6,7 +6,7 @@ MAS infoSpeak {
     
     agents: 
 	  lecturer #1;
-	  studiousStudent #1;
+	  //studiousStudent #1;
       
       
       //carefreeStudent #1; 
