@@ -386,6 +386,21 @@ public class ISEnv extends Environment {
 				else if (action.getFunctor().equals("go_to")) {
 					int x = (int)((NumberTerm)action.getTerm(0)).solve();
 					int y = (int)((NumberTerm)action.getTerm(1)).solve();
+					
+					//MODIFICATION
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					boolean moved = model.goTo(ag,x,y);
 					if(!moved){
 						return false;
@@ -773,6 +788,12 @@ public class ISEnv extends Environment {
 
 				}
 				counter++;
+				System.out.println(simBuildings.get("frum1").getType());
+				
+				
+				
+				
+				
 				//System.out.println("Arrived at destination");
 			} 
 			catch (Exception e){
