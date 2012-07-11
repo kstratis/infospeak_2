@@ -11,6 +11,7 @@ public class Building {
 	int number;
 	int x;
 	int y;
+	int capacity = 3;
 	
 	boolean accessible = true;
 	
@@ -93,6 +94,20 @@ public class Building {
 	public void setAccessible(boolean accessible) {
 		this.accessible = accessible;
 	}
+	
+	//-----------------------------------------------//
+	//These are the new getter & setter methods
+	//to cater for the capacity feature of buildings
+	
+	public int getCap(){
+		return this.capacity;
+	}
+	
+	public void setCap(int cap){
+		this.capacity = cap;
+	}
+	
+	//------------------------------------------------//
 	
 	public void printInfo(){
 		System.out.println("Building:" + name + "," + type + ","+ code + "," + number + " at " + x +"," + y + "," + accessible);

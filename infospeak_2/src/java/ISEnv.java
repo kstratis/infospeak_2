@@ -387,9 +387,21 @@ public class ISEnv extends Environment {
 					int x = (int)((NumberTerm)action.getTerm(0)).solve();
 					int y = (int)((NumberTerm)action.getTerm(1)).solve();
 					
-					///MODIFICATION
+					//MODIFICATION
 					
-					
+					for(Building buildingTemp : simBuildings.values()){
+						if ((buildingTemp.getX() == x) && (buildingTemp.getY() == y)){
+							
+							
+							System.out.println("This is a building I am going to visit: " + buildingTemp.getName());
+							System.out.println("...and its capacity is " + buildingTemp.getCap());
+							break;
+							
+							
+							
+							
+						}
+					}
 					
 					
 					
@@ -761,7 +773,7 @@ public class ISEnv extends Environment {
 		}
 
 		boolean goTo(String agent, int ex, int ey){
-			int counter = 0;
+			//int counter = 0;
 			int agentid = simAgents.get(agent).getId();
 			Location s = getAgPos(agentid);
 			try{
@@ -787,8 +799,8 @@ public class ISEnv extends Environment {
 					}
 
 				}
-				counter++;
-				System.out.println(simBuildings.get("frum1").getType());
+				//counter++;
+				//System.out.println(simBuildings.get("frum1").getType());
 				
 				
 				
