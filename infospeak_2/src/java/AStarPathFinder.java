@@ -34,8 +34,8 @@ public class AStarPathFinder{
 		this.maxSearchDistance = maxSearchDistance;
 		this.allowDiagMovement = true;
 		nodes = new Node[this.fieldwidth][this.fieldheight];
-		for (int x=0;x<this.fieldwidth;x++) {
-			for (int y=0;y<this.fieldheight;y++) {
+		for (int x=0; x<this.fieldwidth; x++) {
+			for (int y=0; y<this.fieldheight; y++) {
 				nodes[x][y] = new Node(x,y);
 			}
 		}
@@ -83,8 +83,8 @@ public class AStarPathFinder{
 			addToClosed(current);
 			// search through all the neighbours of the current node evaluating
 			// them as next steps
-			for (int x=-1;x<2;x++) {
-				for (int y=-1;y<2;y++) {
+			for (int x=-1; x<2; x++) {
+				for (int y=-1; y<2; y++) {
 					// not a neighbour, its the current tile
 					if ((x == 0) && (y == 0)) {
 						continue;
@@ -99,7 +99,7 @@ public class AStarPathFinder{
 					// determine the location of the neighbour and evaluate it
 					int xp = x + current.x;
 					int yp = y + current.y;
-					if (isValidLocation(sx,sy,xp,yp)) {
+					if (isValidLocation(sx, sy, xp, yp)) {
 						// the cost to get to this node is cost the current plus the movement
 						// cost to reach this node. Note that the heursitic value is only used
 						// in the sorted open list
@@ -185,7 +185,7 @@ public class AStarPathFinder{
 				blocked[x][y] = false;
 			}
 		}
-		//add obstacles here by coordinate, possibly exapand too for larger size
+		//add obstacles here by coordinate, possibly expand too for larger size
 		blocked[enemycoord[0]][enemycoord[1]] = true;
 	}
 	public boolean blocked(int tx, int ty) {
@@ -276,7 +276,7 @@ public class AStarPathFinder{
 	 * 
 	 * @param mover The entity that is being moved
 	 * @param sx The x coordinate of the tile whose cost is being determined
-	 * @param sy The y coordiante of the tile whose cost is being determined
+	 * @param sy The y coordinate of the tile whose cost is being determined
 	 * @param tx The x coordinate of the target location
 	 * @param ty The y coordinate of the target location
 	 * @return The cost of movement through the given tile
@@ -288,7 +288,7 @@ public class AStarPathFinder{
 	/**
 	 * A simple sorted list
 	 *
-	 * @author kevin
+	 * @author Kevin
 	 */
 	private class SortedList {
 		/** The list of elements */
@@ -375,7 +375,7 @@ public class AStarPathFinder{
 		 * @param parent The parent node which lead us to this node
 		 * @return The depth we have no reached in searching
 		 */
-		public int setParent(Node parent) {
+		public int setParent (Node parent) {
 			depth = parent.depth + 1;
 			this.parent = parent;	
 			return depth;
@@ -383,7 +383,7 @@ public class AStarPathFinder{
 		/**
 		 * @see Comparable#compareTo(Object)
 		 */
-		public int compareTo(Object other) {
+		public int compareTo (Object other) {
 			Node o = (Node) other;
 			float f = heuristic + cost;
 			float of = o.heuristic + o.cost;
@@ -403,7 +403,7 @@ public class AStarPathFinder{
 		return result;
 	}
 	public void addBlock(int xfrm, int xto, int yfrm, int yto){
-		//using robot size 90 by 80 assuming coordinates are centre
+		//using robot size 90 by 80 assuming coordinates are center
 		for(int bx = xfrm; bx<xto; bx++){
 			for(int by = yfrm; by<yto; by++){
 				blocked[bx][by] = true;

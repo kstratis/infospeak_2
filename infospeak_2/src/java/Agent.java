@@ -25,6 +25,7 @@ public class Agent {
 	String home;
 	int x = -1;
 	int y = -1;
+	int stamina = 20;
 
 	public Agent(String name, String type, int codeNum, int id) {
 		super();
@@ -214,6 +215,14 @@ public class Agent {
 	public void setPos(int x, int y){
 		setX(x);
 		setY(y);
+	}
+	
+	public void setStamina(int st){
+		this.stamina = st;
+	}
+	
+	public int getStamina(){
+		return this.stamina;
 	}
 	
 	public String getPos(){

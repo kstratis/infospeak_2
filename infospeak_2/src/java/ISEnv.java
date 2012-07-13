@@ -829,7 +829,7 @@ public class ISEnv extends Environment {
 				}
 			}*/
 		}
-
+		
 		boolean goTo(String agent, int ex, int ey){
 			//int counter = 0;
 			int agentid = simAgents.get(agent).getId();
@@ -840,6 +840,7 @@ public class ISEnv extends Environment {
 
 				for(int i=1; i<path.getLength(); i++){
 					//System.out.println("Moving " + agent + " to " + path.getX(i) +"," + path.getY(i));
+					//System.out.println("This is the number of steps: " + path.getLength());
 					String loc = Integer.toString(path.getX(i)) + "," + Integer.toString(path.getY(i));
 					if(closed.contains(loc)){
 						//System.out.println(getAgPos(agentid));
@@ -857,14 +858,26 @@ public class ISEnv extends Environment {
 					}
 
 				}
-				//counter++;
-				//System.out.println(simBuildings.get("frum1").getType());
+				
+				System.out.println("This is the number of steps needed to the next dest: " + path.getLength());
+				simAgents.get(agent).stamina = simAgents.get(agent).getStamina() - path.getLength();
+				System.out.println("Agent: " + simAgents.get(agent).getName() + " has stamina: " + simAgents.get(agent).getStamina());
+				
+				if (simAgents.get(agent).getStamina() <=0 ){
+					
+					addPercept(Literal.parseLiteral("hello"));
+					
+					
+				}
+				
+			
 				
 				
 				
 				
 				
-				//System.out.println("Arrived at destination");
+				
+	
 			} 
 			catch (Exception e){
 				e.printStackTrace();

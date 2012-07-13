@@ -11,7 +11,7 @@ public class Building {
 	int number;
 	int x;
 	int y;
-	int capacity = 2;
+	int capacity = 0;
 	
 	boolean accessible = true;
 	
