@@ -11,7 +11,7 @@ public class Building {
 	int number;
 	int x;
 	int y;
-	int capacity = 3;
+	int capacity = 2;
 	
 	boolean accessible = true;
 	
@@ -104,7 +104,7 @@ public class Building {
 	}
 	
 	public void setCap(int cap){
-		this.capacity = cap;
+		this.capacity = this.getCap() + cap;
 	}
 	
 	//------------------------------------------------//

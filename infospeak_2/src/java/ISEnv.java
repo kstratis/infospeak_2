@@ -371,7 +371,10 @@ public class ISEnv extends Environment {
 	//Execute actions
 	@Override
 	public boolean executeAction(String ag, Structure action) {
+		boolean flag=false;
+		Building tempBuild = null;
 		if (!paused){
+			
 			//logger.info(ag+" doing: "+ action);
 			try {
 				if (action.getFunctor().equals("print")){
@@ -388,37 +391,92 @@ public class ISEnv extends Environment {
 					int y = (int)((NumberTerm)action.getTerm(1)).solve();
 					
 					//MODIFICATION
+					/*	These are the existing agent locations.
+					 *	We need to get their current positions so that we can 
+					 *	reduce the counter of the building in use
+					 **/
 					
-					for(Building buildingTemp : simBuildings.values()){
-						if ((buildingTemp.getX() == x) && (buildingTemp.getY() == y)){
+					for(Building buildingToReduce : simBuildings.values()){
+						if ((simAgents.get(ag).getX() == buildingToReduce.getX()) && 
+								(simAgents.get(ag).getY() == buildingToReduce.getY())){
 							
-							
-							System.out.println("This is a building I am going to visit: " + buildingTemp.getName());
-							System.out.println("...and its capacity is " + buildingTemp.getCap());
-							break;
-							
-							
-							
-							
+							if (buildingToReduce.getName().matches("o[1-9]")){
+								System.out.println("Coming from home... doing nothing");
+							}else{
+								System.out.println("This is the building I am already inside in: " + buildingToReduce.getName());
+								System.out.println("It's current capacity is: " + buildingToReduce.getCap());
+								
+								if (buildingToReduce.getCap() >= 3 ){
+									String closedLoc =  Integer.toString(buildingToReduce.getX()) + "," + Integer.toString(buildingToReduce.getY());
+									
+								/*	
+									if(!closed.contains(closedLoc)){
+										paintSquare(getCanvas().getGraphics(), Color.RED,col,lin);
+										building.setAccessible(false);
+										closed.add(closedLoc);
+									} else{
+										paintSquare(getCanvas().getGraphics(), Color.BLACK,col,lin);
+										building.setAccessible(true);
+										closed.remove(closedLoc);
+									}
+								 */
+									
+									//String closedLoc =  Integer.toString(building.getX()) + "," + Integer.toString(building.getY());
+									buildingToReduce.capacity--;
+									buildingToReduce.setAccessible(true);
+									closed.remove(closedLoc);
+								}else{
+
+									buildingToReduce.capacity--;
+								}
+								System.out.println("It's new capacity after I left: " + buildingToReduce.getCap());
+								break;
+							}
 						}
 					}
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					for(Building buildingToIncrease : simBuildings.values()){
+						if ((buildingToIncrease.getX() == x) && (buildingToIncrease.getY() == y)){
+							
+							if (buildingToIncrease.getName().matches("o[1-9]")){
+								System.out.println("Seems I need to return home... doing nothing");
+							}else{
+								String closedLoc =  Integer.toString(buildingToIncrease.getX()) + "," + Integer.toString(buildingToIncrease.getY());
+								if (buildingToIncrease.getCap() >= 3){
+									
+									buildingToIncrease.setAccessible(false);
+									closed.add(closedLoc);
+									System.out.println("Fallback mode initiated");
+									
+								}else{
+									System.out.println("This is a building I am going to visit: " + buildingToIncrease.getName());
+									System.out.println("...and its capacity is without me: " + buildingToIncrease.getCap());
+									buildingToIncrease.capacity++;
+									if (buildingToIncrease.getCap() >= 3){
+										flag= true;
+										tempBuild = buildingToIncrease;
+										
+									}
+									System.out.println("...and its capacity is with me: " + buildingToIncrease.getCap());
+								}
+							}
+							break;
+						}
+					}
 					
 					boolean moved = model.goTo(ag,x,y);
 					if(!moved){
 						return false;
 					}
 					updatePosition(ag);
-
+					if (flag == true){
+						String closedLoc =  Integer.toString(tempBuild.getX()) + "," + Integer.toString(tempBuild.getY());
+						tempBuild.setAccessible(false);
+						closed.add(closedLoc);
+						flag = false;
+						tempBuild = null;
+					}
+					
 				} else if (action.getFunctor().equals("check_time")){
 					//Update all percepts
 				} else if (action.getFunctor().equals("one_hour")){
