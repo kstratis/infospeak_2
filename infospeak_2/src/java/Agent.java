@@ -25,7 +25,7 @@ public class Agent {
 	String home;
 	int x = -1;
 	int y = -1;
-	int stamina = 20;
+	int stamina = 0;
 
 	public Agent(String name, String type, int codeNum, int id) {
 		super();
@@ -217,8 +217,13 @@ public class Agent {
 		setY(y);
 	}
 	
-	public void setStamina(int st){
-		this.stamina = st;
+	//Stamina setting methods
+	public void reduceStamina(int st){
+		this.stamina = this.stamina - st;
+	}
+	
+	public void increaseStamina(int st){
+		this.stamina = getStamina() + 15;
 	}
 	
 	public int getStamina(){

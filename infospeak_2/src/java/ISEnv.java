@@ -383,7 +383,18 @@ public class ISEnv extends Environment {
 					// Replace existing goal
 					String goal = ((StringTerm)action.getTerm(0)).getString();
 					simAgents.get(ag).setGoal(goal);
-				} 
+				}
+				/*
+				 * In this case an agent returns home to replenish his/her stamina.
+				 * It should be noted that each time the available stamina is used up,
+				 * the agent immediately returns home without consuming any extra amount
+				 * on his/her way back.
+				 */
+
+				else if (action.getFunctor().equals("replenishSt")){
+					simAgents.get(ag).increaseStamina(20);
+				}
+				
 				//This is called from the agents file. The agents' 
 				//go_to calls the java goTo method
 				else if (action.getFunctor().equals("go_to")) {
@@ -860,12 +871,14 @@ public class ISEnv extends Environment {
 				}
 				
 				System.out.println("This is the number of steps needed to the next dest: " + path.getLength());
-				simAgents.get(agent).stamina = simAgents.get(agent).getStamina() - path.getLength();
+				
+				simAgents.get(agent).reduceStamina(path.getLength());
+				//simAgents.get(agent).stamina = simAgents.get(agent).getStamina() - 10; //path.getLength();
 				System.out.println("Agent: " + simAgents.get(agent).getName() + " has stamina: " + simAgents.get(agent).getStamina());
 				
 				if (simAgents.get(agent).getStamina() <=0 ){
 					
-					addPercept(Literal.parseLiteral("hello"));
+					addPercept(Literal.parseLiteral("exhausted"));
 					
 					
 				}
