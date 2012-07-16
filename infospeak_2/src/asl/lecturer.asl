@@ -21,7 +21,10 @@
 +!doaction(Me,L): .nth(0,L,Type) & .nth(1,L,Name) & .nth(4,L,Time) & .nth(5,L,Place) & pos(Place,X,Y) & pos(Me,X,Y)<- .concat("Attending ",Name," ",Type,".",H); add_goal(H); one_hour(Time); !checkevents(Me).
 
 +!givelectures(Me) : week(WeekNow) & day(Day) & time(Time) & Time > 17 <- !gohome(Me); !sleep(Me).
-+!givelectures(Me) : week(WeekNow) & day(Day) & time(TimeNow) & pos(Place,X,Y) & lecture(Name, Week, Day, Time, Place,Priority)  & Time == TimeNow & (Week ==0 | Week==WeekNow)<- add_goal("Going to the next lecture"); !goto(Me,X,Y); .concat("Attending ", Name, " lecture",G); add_goal(G); one_hour(Time); !checkevents(Me).
++!givelectures(Me) : week(WeekNow) & day(Day) & time(TimeNow) & pos(Place,X,Y) & lecture(Name, Week, Day, Time, Place,Priority)  & Time == TimeNow & (Week ==0 | Week==WeekNow)<- add_goal("Going to the next lecture"); !goto(Me,X,Y); .concat("Attending ", Name, " lecture",G); add_goal(G); .print("ready to stay for an hour");one_hour(Time); !checkevents(Me).
+//+!givelectures(Me) : week(WeekNow) & day(Day) & time(TimeNow) & pos(Place,X,Y) & lecture(Name, Week, Day, Time, Place,Priority)  & Time == TimeNow & (Week ==0 | Week==WeekNow) & exhausted(Number)<- add_goal("Going to the next lecture"); !goto(Me,X,Y); .concat("Attending ", Name, " lecture",G); add_goal(G); .print(Number);one_hour(Time); !gohome(Me); one_hour(Time); !checkevents(Me).
+
+
 +!givelectures(Me) : week(WeekNow) & day(Day) & time(Time) & Time == 12 & not (lecture(Name,Week,Day, Time, Place,Priority) & Week == 0 | Week == WeekNow)<- !gotorestaurant(Me); add_goal("Having lunch"); !checkevents(Me).
 +!givelectures(Me) : week(WeekNow) & day(Day) & time(Time) & not (lecture(Name,Week,Day, Time, Place,Priority) & Week == 0 | Week == WeekNow) & Time > 9 & Time <= 17<- !gotoforum(Me); add_goal("Working in forum.");!checkevents(Me).
 +!givelectures(Me) : week(WeekNow) & day(Day) & time(Time) & pos(Place,X,Y) & not (lecture(Name,Week,Day, Time, Place,Priority) & Week == 0 | Week == WeekNow)  <- !checkevents(Me).
@@ -41,7 +44,7 @@
 +!goto(Me,X,Y) : not pos(Me,X,Y) <- .print("travelling"); go_to(X,Y).
 
 //OK! WORKS FINE
-+exhausted: week(WeekNow) & day(Day) & time(Time) & not (lecture(Name,Week,Day, Time, Place,Priority) & Week == 0 | Week == WeekNow) <- .print("received hello"); .my_name(Me); !gohome(Me); replenishSt(Me); one_hour(Time).
+//+exhausted: week(WeekNow) & day(Day) & time(Time) <- .print("going to rest"); .my_name(Me); !gohome(Me); replenishSt(Me); one_hour(Time).
 
 /*
  * +!goto(Me,X,Y) : pos(Me,X,Y) <- .print("Just arrived").

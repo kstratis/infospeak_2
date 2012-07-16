@@ -877,8 +877,9 @@ public class ISEnv extends Environment {
 				System.out.println("Agent: " + simAgents.get(agent).getName() + " has stamina: " + simAgents.get(agent).getStamina());
 				
 				if (simAgents.get(agent).getStamina() <=0 ){
+				
 					
-					addPercept(Literal.parseLiteral("exhausted"));
+					addPercept(Literal.parseLiteral("exhausted(" + 1 +")"));
 					
 					
 				}
@@ -1165,7 +1166,7 @@ public class ISEnv extends Environment {
 			//this.showStuff();
 			defaultFont = new Font("Arial", Font.BOLD, 12); // change default font
 			setVisible(true);			
-			//repaint();
+			repaint();
 		}
 
 		// Pause system if pause button pressed
@@ -1208,6 +1209,9 @@ public class ISEnv extends Environment {
 		// Draw agents
 		@Override
 		public void drawAgent(Graphics g, int x, int y, Color c, int id) {
+			Graphics2D g2 = (Graphics2D)g;
+			   g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			                        RenderingHints.VALUE_ANTIALIAS_ON);
 			String label = "";
 
 			//--CHANGED LINES
@@ -1228,26 +1232,29 @@ public class ISEnv extends Environment {
 				label = simAgents.get(agentNames.get(id)).getCode();
 				c = simAgents.get(agentNames.get(id)).getColor();
 			}
-			super.drawAgent(g, x, y, c, -1);
-			g.setColor(Color.white);
-			super.drawString(g, x, y, defaultFont, label);
+			super.drawAgent(g2, x, y, c, -1);
+			g2.setColor(Color.white);
+			super.drawString(g2, x, y, defaultFont, label);
 		}
 
 		// Draw buildings
 		public void drawBuilding(Graphics g, int x, int y, int object) {
+			Graphics2D g2 = (Graphics2D)g;
+			   g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			                        RenderingHints.VALUE_ANTIALIAS_ON);
 			String label = buildingCodesD.get(object);
 			if(label.equals("PARC")){
-				g.setColor(Color.green);
-				g.fillRect(x * cellSizeW + 1, y * cellSizeH+1, cellSizeW-1, cellSizeH-1);
+				g2.setColor(Color.green);
+				g2.fillRect(x * cellSizeW + 1, y * cellSizeH+1, cellSizeW-1, cellSizeH-1);
 			} 
 			else {
 				/*if(squares[x][y].getBuilding().isAccessible()){
 					System.out.println("eedc");
 					g.setColor(Color.RED);
 				}*/
-				super.drawObstacle(g, x, y);
-				g.setColor(Color.white);
-				drawString(g, x, y, defaultFont, label);
+				super.drawObstacle(g2, x, y);
+				g2.setColor(Color.white);
+				drawString(g2, x, y, defaultFont, label);
 			}
 		}
 
