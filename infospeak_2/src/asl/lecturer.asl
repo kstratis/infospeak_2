@@ -43,15 +43,8 @@
 
 +!goto(Me,X,Y) : not pos(Me,X,Y) <- .print("travelling"); go_to(X,Y).
 
-//OK! WORKS FINE
-//+exhausted: week(WeekNow) & day(Day) & time(Time) <- .print("going to rest"); .my_name(Me); !gohome(Me); replenishSt(Me); one_hour(Time).
 
-/*
- * +!goto(Me,X,Y) : pos(Me,X,Y) <- .print("Just arrived").
- *
- *
- * +!goto(Me,X,Y) : pos(Me,X,Y).
- * 
- */
++exhausted: week(WeekNow) & day(Day) & time(Time) <- .print("going to rest"); .my_name(Me); !gohome(Me); replenishSt(Me); one_hour(Time).
+
  
  

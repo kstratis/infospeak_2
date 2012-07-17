@@ -29,7 +29,7 @@ public class ISEnv extends Environment {
 	Time time;
 
 	// Length of simulated hour and amount of time between agent actions (ms)
-	int hour = 1000;
+    int hour = 1000;
 	int sleep = 50;
 
 	// System state
@@ -151,6 +151,8 @@ public class ISEnv extends Environment {
 					} 
 					else if (input.startsWith("hl")){
 						hour = Integer.parseInt(input.substring(3));
+						//System.out.println(Double.parseDouble(input.substring(2, 3)));
+						
 					}
 					else if (input.startsWith("sl")){
 						sleep = Integer.parseInt(input.substring(3));
